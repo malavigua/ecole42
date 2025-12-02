@@ -47,14 +47,17 @@ void	print_pointer_and_set_res(va_list arg_ptr, int *res)
 	p = va_arg(arg_ptr, void *);
 	if (!p)
 	{
-		write(2, "NIL", 3);
-		return ;
+		write(2, "(nil)", 5);
+        *res = *res + 5;
 	}
-	u = (uintptr_t)p;
-	write(1, "0x", 2);
-    *res = *res + 2;
-	print_hexa(u, 'x');
-    *res = *res + size_unsigned_int_to_base_n(u, 16);
+    else 
+    {
+	    u = (uintptr_t)p;
+	    write(1, "0x", 2);
+        *res = *res + 2;
+	    print_hexa(u, 'x');
+        *res = *res + size_unsigned_int_to_base_n(u, 16);
+    }
 }
 
 void	print_hex_l_u_and_set_res(va_list arg_ptr, int *res, char conv)
