@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include "ft_printf.h"
 
 void	print_char_and_set_res(va_list arg_ptr, int *res)
 {
@@ -23,8 +23,16 @@ void	print_str_and_set_res(va_list arg_ptr, int *res)
 	char	*str;
 
 	str = va_arg(arg_ptr, char *);
-	ft_putstr_fd(str, 1);
-	*res = *res + ft_strlen(str);
+    if(str == NULL)
+    {
+        write(1, "(null)", 6);
+        *res = *res + 6;
+    }
+    else
+    {
+	    ft_putstr_fd(str, 1);
+	    *res = *res + ft_strlen(str);
+    }
 }
 
 void	print_int_and_set_res(va_list arg_ptr, int *res)
@@ -40,7 +48,7 @@ void	print_unsigned_int(unsigned int i)
 {
 	char	a;
 
-	if (i > 10)
+    if (i >= 10)
 		print_unsigned_int(i / 10);
 	a = i % 10 + '0';
 	write(1, &a, 1);
@@ -52,5 +60,5 @@ void	print_unsigned_int_and_set_res(va_list arg_ptr, int *res)
 
 	i = va_arg(arg_ptr, unsigned int);
 	print_unsigned_int(i);
-	*res = *res + size_unsigned_int_to_base_n(i, 10);
+    *res = *res + size_unsigned_int_to_base_n((uintptr_t)i, 10);
 }

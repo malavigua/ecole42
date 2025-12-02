@@ -9,7 +9,8 @@
 /*   Updated: 2025/11/28 16:20:33 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "printf.h"
+#include "ft_printf.h"
+#include <limits.h>
 
 static int	is_conversion(char c)
 {
@@ -90,8 +91,13 @@ int	ft_printf(const char *s, ...)
 	return (res);
 }
 
-/*int	main(int argc, char **argv)
+int	main()
 {
-	printf("printf : %d\n", printf("sjjmkj%dlkkj%s%%%dghgh\n", 2, "ss", 2));
-	ft_printf("printf : %d\n", ft_printf("sjjmkj%dlkkj%s%%%dghgh\n", 2, "ss", 2));
-}*/
+    void *p;
+    p = 0;
+    printf("p:%d\n", printf("%p dcds\n", p));
+    //ft_printf("p:%d\n", ft_printf("%u\n", UINT_MAX - 2000000000));
+
+    //ft_printf("f:%d\n", ft_printf("%u\n",INT_MIN));  
+
+}
