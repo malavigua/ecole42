@@ -65,8 +65,6 @@ char	*f_strcpy_after_nl(const char *src)
     dst = malloc(len - i + 1);
     if (!dst)
         return (NULL);
-    if (src[i] == '\n')
-             i++;
     while (src[i])
         dst[j++] = src[i++];
     dst[j] = '\0';
