@@ -29,6 +29,8 @@ int	strlen_before_nl(const char *st)
     res = 0;
     while (st[res] && st[res] != '\n')
         res++;
+    if (st[res] == '\n')
+        res++;
     return (res);
 }
 
@@ -51,16 +53,20 @@ char	*f_strcpy_after_nl(const char *src)
     int		i;
     int		j;
     char	*dst;
+    int len;
 
     i = 0;
     j = 0;
     while (src[i] && src[i] != '\n')
         i++;
-    dst = malloc((ft_strlen(src) - i) + 1);
+    len = ft_strlen(src);
+    if (src[i] == '\n')
+        i++;
+    dst = malloc(len - i + 1);
     if (!dst)
         return (NULL);
     if (src[i] == '\n')
-        i++;
+             i++;
     while (src[i])
         dst[j++] = src[i++];
     dst[j] = '\0';
