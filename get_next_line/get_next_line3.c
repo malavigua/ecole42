@@ -46,7 +46,7 @@ size_t	f_strcpy(char *dst, const char *src)
     return (i);
 }
 
-char	*f_strcpy_after_nl(const char *src, size_t size)
+char	*f_strcpy_after_nl(const char *src)
 {
     int		i;
     int		j;
@@ -54,19 +54,20 @@ char	*f_strcpy_after_nl(const char *src, size_t size)
 
     i = 0;
     j = 0;
-    while (src[i] && src[i] != '\n' && (size_t)i < size)
+    while (src[i] && src[i] != '\n')
         i++;
-    dst = malloc((size - i) + 1);
+    dst = malloc((ft_strlen(src) - i) + 1);
     if (!dst)
         return (NULL);
-    i++;
-    while (src[i] && (size_t)i < size)
+    if (src[i] == '\n')
+        i++;
+    while (src[i])
         dst[j++] = src[i++];
     dst[j] = '\0';
     return (dst);
 }
 
-char	*str_concat_until_nl(char *dst, char *src, size_t size)
+char	*str_concat_until_nl(char *dst, char *src)
 {
     size_t	len_dst;
     size_t	i;
@@ -76,8 +77,6 @@ char	*str_concat_until_nl(char *dst, char *src, size_t size)
 
     len_dst = ft_strlen(dst);
     len_src = strlen_before_nl(src);
-    if (size < len_src)
-        len_src = size;
     i = 0;
     j = 0;
     res = malloc(len_dst + len_src + 1);
@@ -93,6 +92,7 @@ char	*str_concat_until_nl(char *dst, char *src, size_t size)
         i++;
     }
     res[i] = '\0';
+    free(dst);
     return (res);
 }
 
@@ -151,8 +151,11 @@ char	*get_next_line(int fd)
     {
         if (char_after_nl)
             free(char_after_nl);
-        char_after_nl = f_strcpy_after_nl(res, (size_t)ft_strlen(res));
-        res = str_concat_until_nl("", res, (size_t)ft_strlen(res));
+        char_after_nl = f_strcpy_after_nl(res);
+        tmp =ft_strdup("");
+        if(!tmp)
+            return (NULL);
+        res = str_concat_until_nl(tmp, res);
         return (res);
     }
     else
@@ -163,7 +166,7 @@ char	*get_next_line(int fd)
             free(res);
             return (NULL);
         }
-
+        buf[0] = '\0';
         r = 1;
         while (r > 0 && !(is_in_str(res, '\n')))
         {
@@ -174,38 +177,30 @@ char	*get_next_line(int fd)
                 free(res);   
                 return NULL; 
             }
+            if(r == 0)
+			{
+				free(buf);
+                if(char_after_nl)
+				    free(char_after_nl);
+				if(res[0] == '\0')
+				{
+					free(res);
+					return (NULL);
+				}
+				return(res);
+			}
             buf[r] = '\0';
-            tmp = str_concat_until_nl(res, buf, r);
-            if (!tmp)
-            {
-                free(res);
-                return NULL;
-            }
-            free(res);  // libère l'ancien buffer
-            res = tmp;
+            res = str_concat_until_nl(res, buf);
         }
-        if (res[0] == '\0')
+        	
+        if (is_in_str(buf, '\n'))
         {
-            free(buf);
-            free(res);
-            return NULL;
+            if (char_after_nl)
+                free(char_after_nl);
+            char_after_nl = f_strcpy_after_nl(buf);
         }
-        if (r == 0 && res[0] != '\0')
-        {   
-            free(buf);
             return (res);
-        }
-        else
-        {	
-            if (is_in_str(buf, '\n'))
-            {
-                if (char_after_nl)
-                    free(char_after_nl);
-                char_after_nl = f_strcpy_after_nl(buf, r);
-            }
-            free(buf);
-            return (res);
-        }
+        
     }
     return (NULL);
 }
