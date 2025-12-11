@@ -139,7 +139,7 @@ char	*get_next_line(int fd)
 {
     static char		*char_after_nl;
     ssize_t			r;
-    char			*buf;
+    static char			buf[BUFFER_SIZE + 1];
     char			*res;
     char            *tmp;
 
@@ -164,12 +164,6 @@ char	*get_next_line(int fd)
     }
     else
     {
-        buf = malloc(BUFFER_SIZE + 1);
-        if (!buf)
-        {
-            free(res);
-            return (NULL);
-        }
         buf[0] = '\0';
         r = 1;
         while (r > 0 && !(is_in_str(res, '\n')))
@@ -177,13 +171,11 @@ char	*get_next_line(int fd)
             r = read(fd, buf, BUFFER_SIZE);
             if (r == -1)
             {
-                free(buf);   
                 free(res);   
                 return NULL; 
             }
             if(r == 0)
 			{
-				free(buf);
                 if(char_after_nl)
 				    free(char_after_nl);
 				if(res[0] == '\0')
