@@ -85,10 +85,7 @@ char	*str_concat_until_nl(char *dst, char *src)
     j = 0;
     res = malloc(len_dst + len_src + 1);
     if (!res)
-    {
-        free(dst);
         return NULL;
-    }
     if (len_dst > 0)
         i = f_strcpy(res, dst);
     while (j < len_src && src[j] != '\n')
