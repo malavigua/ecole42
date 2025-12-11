@@ -16,6 +16,8 @@ int	ft_strlen(const char *st)
 {
     int	res;
 
+    if (!st)
+        return 0;
     res = 0;
     while (st[res])
         res++;
@@ -39,6 +41,8 @@ size_t	f_strcpy(char *dst, const char *src)
     int	i;
 
     i = 0;
+    if(!dst)
+        return(0);
     while (src[i])
     {
         dst[i] = src[i];
@@ -96,7 +100,8 @@ char	*str_concat_until_nl(char *dst, char *src)
         i++;
     }
     res[i] = '\0';
-    free(dst);
+    if(dst)
+        free(dst);
     return (res);
 }
 
@@ -144,6 +149,8 @@ char	*get_next_line(int fd)
     char            *t;
     char            *tmp;
 
+    if(fd < 0 || BUFFER_SIZE <= 0)
+        return(NULL);
     res = ft_strdup("");
     if (!res)
         return NULL;
@@ -162,10 +169,7 @@ char	*get_next_line(int fd)
         if (char_after_nl)
             free(char_after_nl);
         char_after_nl = f_strcpy_after_nl(res);
-         tmp =ft_strdup("");
-        if(!tmp)
-            return (NULL);
-        t = str_concat_until_nl(tmp, res);
+        t = str_concat_until_nl(NULL, res);
         free(res);
         res = t;
         return (res);
