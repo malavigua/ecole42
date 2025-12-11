@@ -141,6 +141,7 @@ char	*get_next_line(int fd)
     ssize_t			r;
     char			buf[BUFFER_SIZE + 1];
     char			*res;
+    char            *t;
     char            *tmp;
 
     res = ft_strdup("");
@@ -161,10 +162,12 @@ char	*get_next_line(int fd)
         if (char_after_nl)
             free(char_after_nl);
         char_after_nl = f_strcpy_after_nl(res);
-        tmp =ft_strdup("");
+         tmp =ft_strdup("");
         if(!tmp)
             return (NULL);
-        res = str_concat_until_nl(tmp, res);
+        t = str_concat_until_nl(tmp, res);
+        free(res);
+        res = t;
         return (res);
     }
     else
