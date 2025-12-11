@@ -142,7 +142,7 @@ char	*get_next_line(int fd)
 {
     static char		*char_after_nl;
     ssize_t			r;
-    static char			buf[BUFFER_SIZE + 1];
+    char			buf[BUFFER_SIZE + 1];
     char			*res;
     char            *tmp;
 
