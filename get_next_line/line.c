@@ -178,7 +178,7 @@ char	*get_next_line(int fd)
         buf[0] = '\0';
 
         r = 1;
-	while (r > 0 && !(is_in_str(buf, '\n')))
+	while (r > 0 && !(is_in_str(extract_char, '\n')))
 	{
 		r = read(fd, buf, BUFFER_SIZE);
 		if (r == -1)
@@ -189,19 +189,21 @@ char	*get_next_line(int fd)
 		}
 		if(r == 0)
 		{
+            free(buf);
 			if(extract_char[0] == '\0')
 			{	
-				free(buf);
 				free(extract_char);
 				return (NULL);
 			}
-			return(extract_char);
+			line = extract_line(extract_char);
+            free(extract_char);
+            extract_char = NULL;
+            return(line);
 		}
             buf[r] = '\0';
             extract_char = ft_strjoin(extract_char, buf);
         }
-	if(extract_char && is_in_str(extract_char, '\n'))
-		line = extract_line(extract_char);
+	line = extract_line(extract_char);
 	extract_char = f_strcpy_after_nl(extract_char);
 	free(buf);
 	return(line);
