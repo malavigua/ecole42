@@ -194,7 +194,7 @@ char *get_next_line(int fd)
         if (r == 0)
         {
             free(buf);
-            if (extract_char[0] == '\0')
+            if (extract_char && extract_char[0] == '\0')
             {
                 free(extract_char);
                 extract_char = NULL;
