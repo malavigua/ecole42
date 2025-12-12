@@ -156,58 +156,66 @@ char	*extract_line(char *c)
 	return(res);
 }
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-    ssize_t			r;
-    char			*buf;
-    static char		*extract_char;
-    char			*line;
+    ssize_t r;
+    char *buf;
+    static char *extract_char;
+    char *line;
 
-	if(fd < 0 || BUFFER_SIZE <= 0)
-        	return(NULL);
-	buf = malloc(BUFFER_SIZE + 1);
-	if(!buf)
-		return(NULL);
-	if(!extract_char)
-	{
-		extract_char = ft_strdup("");
-		if (!extract_char)
-			return NULL;
-	}
+    if (fd < 0 || BUFFER_SIZE <= 0)
+        return (NULL);
 
-        buf[0] = '\0';
+    buf = malloc(BUFFER_SIZE + 1);
+    if (!buf)
+        return (NULL);
 
-        r = 1;
-	while (r > 0 && !(is_in_str(extract_char, '\n')))
-	{
-		r = read(fd, buf, BUFFER_SIZE);
-		if (r == -1)
-		{
-			free(buf);
-			free(extract_char);
-			return NULL;
-		}
-		if(r == 0)
-		{
+    if (!extract_char)
+    {
+        extract_char = ft_strdup("");
+        if (!extract_char)
+            return (NULL);
+    }
+
+    buf[0] = '\0';
+    r = 1;
+
+    while (r > 0 && !is_in_str(extract_char, '\n'))
+    {
+        r = read(fd, buf, BUFFER_SIZE);
+        if (r == -1)
+        {
             free(buf);
-			if(extract_char[0] == '\0')
-			{	
-				free(extract_char);
-				return (NULL);
-			}
-			line = extract_line(extract_char);
             free(extract_char);
             extract_char = NULL;
-            return(line);
-		}
-            buf[r] = '\0';
-            extract_char = ft_strjoin(extract_char, buf);
+            return (NULL);
         }
-	line = extract_line(extract_char);
-	extract_char = f_strcpy_after_nl(extract_char);
-	free(buf);
-	return(line);
+
+        if (r == 0)
+        {
+            free(buf);
+            if (extract_char[0] == '\0')
+            {
+                free(extract_char);
+                extract_char = NULL;
+                return (NULL);
+            }
+            line = extract_line(extract_char);
+            free(extract_char);
+            extract_char = NULL;
+            return (line);
+        }
+
+        buf[r] = '\0';
+        extract_char = ft_strjoin(extract_char, buf);
+    }
+
+    line = extract_line(extract_char);
+    extract_char = f_strcpy_after_nl(extract_char);
+    free(buf);
+    return (line);
 }
+
 
 #include <fcntl.h>
   int main()
