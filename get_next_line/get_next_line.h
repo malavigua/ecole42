@@ -19,6 +19,11 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 5
 # endif
+
 char	*get_next_line(int fd);
+size_t	ft_strlen(const char *st);
+size_t	ft_strcpy(char *dst, const char *src);
+char	*ft_strdup(const char *s);
+char	*f_strcpy_after_nl(char *src);
 
 #endif
