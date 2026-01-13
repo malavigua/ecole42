@@ -6,10 +6,12 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 12:20:43 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/13 18:15:10 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/13 18:54:34 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minitalk.h"
+
+int msg_received = 1;
 
 int	ft_atoi(const char *nptr)
 {
@@ -41,6 +43,8 @@ void	send_signal(pid_t pid, char c)
 	int	i;
 
 	i = 0;
+	while (!msg_received)
+		pause();
 	while (i < 8)
 	{
 		if ((c >> i) & 1)
@@ -50,11 +54,13 @@ void	send_signal(pid_t pid, char c)
 		usleep(50);
 		i++;
 	}
+	msg_received = 0;
 }
 
 void	signal_handler(int signum)
 {
-	printf("%d received\n", signum);
+	msg_received = 1;
+	//printf("%d received\n", signum);
 }
 
 int	main(int argc, char **argv)
@@ -71,12 +77,13 @@ int	main(int argc, char **argv)
 	sigemptyset(&action.sa_mask);
 	action.sa_flags = 0;
 	sigaction(SIGUSR1, &action, NULL);
-	printf("%d\n", getpid());
+	//printf("%d\n", getpid());
 	pid = ft_atoi(argv[1]);
 	msg = argv[2];
 	while (msg[i])
 	{
 		send_signal(pid, msg[i]);
+		msg_received = 1;
 		i++;
 	}
 	send_signal(pid, '\0');
