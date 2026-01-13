@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 12:20:43 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/12 19:16:23 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/13 18:15:10 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minitalk.h"
@@ -44,36 +44,41 @@ void	send_signal(pid_t pid, char c)
 	while (i < 8)
 	{
 		if ((c >> i) & 1)
-		{
-			printf("%d ", (c >> i) & 1);
 			kill(pid, SIGUSR1);
-			usleep(50);
-		}
 		else
-		{	
-			printf("%d ", (c >> i) & 1);
 			kill(pid, SIGUSR2);
-			usleep(50);
-		}
+		usleep(50);
 		i++;
 	}
 }
 
+void	signal_handler(int signum)
+{
+	printf("%d received\n", signum);
+}
+
 int	main(int argc, char **argv)
 {
-	pid_t	pid;
-	char	*msg;
-	int		i;
+	struct sigaction	action;
+	pid_t				pid;
+	char				*msg;
+	int					i;
 
 	i = 0;
 	if (argc != 3)
-		return (0);
+		return (1);
+	action.sa_handler = signal_handler;
+	sigemptyset(&action.sa_mask);
+	action.sa_flags = 0;
+	sigaction(SIGUSR1, &action, NULL);
+	printf("%d\n", getpid());
 	pid = ft_atoi(argv[1]);
 	msg = argv[2];
 	while (msg[i])
 	{
 		send_signal(pid, msg[i]);
 		i++;
-	}	
-	return (1);
+	}
+	send_signal(pid, '\0');
+	return (0);
 }
