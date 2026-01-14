@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minitalk.h"
 
-int msg_received = 1;
+int	g_msg_received;
 
 int	ft_atoi(const char *nptr)
 {
@@ -38,52 +38,53 @@ int	ft_atoi(const char *nptr)
 	return (res * mul);
 }
 
-void	send_signal(pid_t pid, char c)
+void	send_signal(pid_t pid, unsigned char c)
 {
 	int	i;
 
 	i = 0;
-	while (!msg_received)
-		pause();
 	while (i < 8)
 	{
+		g_msg_received = 0;
 		if ((c >> i) & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(50);
+		while (!g_msg_received)
+			pause();
+		usleep(100);
 		i++;
 	}
-	msg_received = 0;
 }
 
 void	signal_handler(int signum)
 {
-	msg_received = 1;
-	//printf("%d received\n", signum);
+	if (signum == 10)
+		g_msg_received = 1;
 }
 
 int	main(int argc, char **argv)
 {
 	struct sigaction	action;
 	pid_t				pid;
-	char				*msg;
+	unsigned char		*msg;
 	int					i;
 
 	i = 0;
 	if (argc != 3)
+	{
+		write(2, "Error: wrong number of arguments\n", 34);
 		return (1);
+	}
 	action.sa_handler = signal_handler;
 	sigemptyset(&action.sa_mask);
 	action.sa_flags = 0;
 	sigaction(SIGUSR1, &action, NULL);
-	//printf("%d\n", getpid());
 	pid = ft_atoi(argv[1]);
-	msg = argv[2];
+	msg = (unsigned char *)argv[2];
 	while (msg[i])
 	{
 		send_signal(pid, msg[i]);
-		msg_received = 1;
 		i++;
 	}
 	send_signal(pid, '\0');
