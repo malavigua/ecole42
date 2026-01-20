@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 10:56:18 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/20 20:05:19 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/20 20:25:27 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,36 +203,36 @@ void	ft_move_cheapest_a_to_b(t_stack_node **a, t_stack_node **b)
 	}
 	verify_and_set_top_before_push(a, cheapest_node, 'a');
 	verify_and_set_top_before_push(b, cheapest_node->target_node, 'b');
-
+	ft_stack_push(a, b, 'b', true);
 
 
 }
 
-void	ft_stack_sort_size_greater_three(t_stack_node **a)
+void	ft_stack_sort_size_greater_three(t_stack_node **a, t_stack_node **b)
 {	
 	int			stack_size;
-	t_stack_node		*b;
 
 	if (!a || !*a || ft_stack_size(*a) <= 3 || ft_stack_is_sorted_asc(*a))
 		return ;
 	stack_size = ft_stack_size(*a);
-	b = NULL;
 	if (stack_size-- > 3 && !ft_stack_is_sorted_asc(*a))
-		ft_stack_push(a, &b, 'b', true);
+		ft_stack_push(a, b, 'b', true);
 	if (stack_size-- > 3 && !ft_stack_is_sorted_asc(*a))
-		ft_stack_push(a, &b, 'b', true);
+		ft_stack_push(a, b, 'b', true);
 	while (stack_size-- > 3 && !ft_stack_is_sorted_asc(*a))
 	{
 		ft_set_index_and_above_median(*a);
-		ft_set_index_and_above_median(b);
-		ft_set_target_a_from_b(*a, b);
-		ft_set_push_cost(*a, b);
+		ft_set_index_and_above_median(*b);
+		ft_set_target_a_from_b(*a, *b);
+		ft_set_push_cost(*a, *b);
 		ft_set_cheapest(*a);
-		ft_move_cheapest_a_to_b(a, &b);
+		ft_move_cheapest_a_to_b(a, b);
 	}
+	ft_stack_sort_three(a);
+
 }
 
-void	ft_sort_stack(t_stack_node **a)
+void	ft_sort_stack(t_stack_node **a, t_stack_node **b)
 {
 	if (!a || !*a || ft_stack_is_sorted_asc(*a))
 		return ;
@@ -248,7 +248,7 @@ void	ft_sort_stack(t_stack_node **a)
 	}
 	else
 	{
-		ft_stack_sort_size_greater_three(a);
+		ft_stack_sort_size_greater_three(a, b);
 		return ;
 	}
 }

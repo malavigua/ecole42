@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:34:54 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/20 20:08:28 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/20 20:23:53 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FT_STACK_H
@@ -59,5 +59,5 @@ void			ft_stack_reverse_rotate(t_stack_node **st, char stack_name,
 void			ft_stack_reverse_rotate_both(t_stack_node **a, t_stack_node **b, bool print);
 /* stack sorting functions*/
 void	ft_stack_sort_three(t_stack_node **st);
-void    ft_sort_stack(t_stack_node **a);
+void    ft_sort_stack(t_stack_node **a, t_stack_node **b);
 #endif

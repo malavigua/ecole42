@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:34:49 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/20 19:40:39 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/20 20:39:36 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_stack.h"
@@ -241,10 +241,10 @@ void    ft_stack_reverse_rotate_both(t_stack_node **a, t_stack_node **b, bool pr
 
 int main(void)
 {
-    int tab[] = {10, 20, 15};
-    size_t size = 3;
+    int tab[] = {10, 20, 15, 40, 60, 5, 9};
+    size_t size = 7;
     t_stack_node *a = NULL;
-
+    t_stack_node *b = NULL;
     a = ft_stack_new(tab, size);
     if (!a)
     {
@@ -253,15 +253,23 @@ int main(void)
     }
 
     printf("Initial state:\n");
+    printf("a:\n");
     ft_stack_print(a);
+    printf("b:\n");
+    ft_stack_print(b);
 
-    ft_sort_stack(&a);
+    ft_sort_stack(&a, &b);
     printf("After sorting:\n");
+    printf("a:\n");
     ft_stack_print(a);
+    printf("b:\n");
+    ft_stack_print(b);
+
 
     ft_stack_clear(&a);
-    if (!a)
-        printf("\nStack cleared successfully\n");
+    ft_stack_clear(&b);
+    if (!a && !b)
+        printf("\nStacks cleared successfully\n");
 
     return 0;
 }
