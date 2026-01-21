@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:34:49 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/20 20:39:36 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/21 15:13:31 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_stack.h"
@@ -116,8 +116,8 @@ void	ft_stack_print(t_stack_node *st)
 
 t_stack_node	*ft_stack_new(int *tab, int size)
 {
+	int				i;
 	t_stack_node	*res;
-	int		i;
 	t_stack_node	*n1;
 
 	if (!tab || size == 0)
@@ -155,7 +155,8 @@ void	ft_stack_swap(t_stack_node *st, char stack_name, bool print)
 	}
 }
 
-void	ft_stack_push(t_stack_node **from, t_stack_node **to, char stack_name, bool print)
+void	ft_stack_push(t_stack_node **from, t_stack_node **to,
+		char stack_name, bool print)
 {
 	t_stack_node	*tmp;
 
@@ -200,14 +201,13 @@ void	ft_stack_rotate(t_stack_node **st, char stack_name, bool print)
 	}
 }
 
-void    ft_stack_rotate_both(t_stack_node **a, t_stack_node **b, bool print)
+void	ft_stack_rotate_both(t_stack_node **a, t_stack_node **b, bool print)
 {
 	ft_stack_rotate(a, 'a', false);
 	ft_stack_rotate(b, 'b', false);
 	if (print)
 		write(1, "rr\n", 3);
 }
-
 
 void	ft_stack_reverse_rotate(t_stack_node **st, char stack_name, bool print)
 {
@@ -231,18 +231,19 @@ void	ft_stack_reverse_rotate(t_stack_node **st, char stack_name, bool print)
 	}
 }
 
-void    ft_stack_reverse_rotate_both(t_stack_node **a, t_stack_node **b, bool print)
+void	ft_stack_reverse_rotate_both(t_stack_node **a, t_stack_node **b,
+	bool print)
 {
-        ft_stack_reverse_rotate(a, 'a', false);
-        ft_stack_reverse_rotate(b, 'b', false);
+	ft_stack_reverse_rotate(a, 'a', false);
+	ft_stack_reverse_rotate(b, 'b', false);
 	if (print)
-        	write(1, "rrr\n", 4);
+		write(1, "rrr\n", 4);
 }
 
-int main(void)
+/*int main(void)
 {
-    int tab[] = {10, 20, 15, 40, 60, 5, 9};
-    size_t size = 7;
+    int tab[] = {10, 20, 15, 40, 60, 5, 9, 80, 13};
+    size_t size = 9;
     t_stack_node *a = NULL;
     t_stack_node *b = NULL;
     a = ft_stack_new(tab, size);
@@ -273,4 +274,4 @@ int main(void)
 
     return 0;
 }
-
+*/
