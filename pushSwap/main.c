@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 15:13:43 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/21 18:23:06 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/21 21:01:46 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_stack.h"
@@ -84,7 +84,8 @@ bool is_all_num(int argc, char **argv)
 	{
 		if(!is_number(argv[i]))
 		{
-			write(1, "Error\n", 6);
+			write(1, "Error not number\n", 17);
+			printf("-%s-\n", argv[i]);
                         return(false);
 		}
 		i++;
@@ -108,7 +109,7 @@ int	*create_int_tab(int argc, char **argv)
                         int_tab[i-1]=l;
                 else
                 {
-                        write(1, "Error\n", 6);
+                        write(1, "Error not int \n", 15);
                         free(int_tab);
                         return(NULL);
                 }
@@ -127,18 +128,23 @@ int	main(int argc, char **argv)
 	b = NULL;
 	if (argc < 2 || !is_all_num(argc, argv))
 		return (0);
-	
+	if (argc == 2)
+	{
+		ft_split(argv[1], ' ');
+		printf("%s\n", argv[1]);
+	}	
 	int_tab = create_int_tab(argc, argv);
 	if(!int_tab)
 		return(1);
 	if(contains_duplicate(int_tab, argc-1))
 	{
-		write(1, "Error\n", 6);
+		write(1, "Error duplicates\n", 17);
 		free(int_tab);
 		return(1);
 	}
 	a = ft_stack_new(int_tab, argc-1);
 	ft_sort_stack(&a, &b);
+	free(int_tab);
 	ft_stack_clear(&a);
 	return (0);
 }

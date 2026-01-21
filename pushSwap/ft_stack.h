@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:34:54 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/21 18:20:23 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/21 19:13:14 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FT_STACK_H
@@ -96,5 +96,10 @@ void			ft_stack_reverse_rotate_both(t_stack_node **a, t_stack_node **b,
 void			ft_stack_sort_three(t_stack_node **st);
 
 void			ft_sort_stack(t_stack_node **a, t_stack_node **b);
+
+/* split */
+
+char    **ft_split(char const *s, char c);
+
 
 #endif
