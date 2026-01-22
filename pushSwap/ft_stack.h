@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:34:54 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/21 19:13:14 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/22 16:01:20 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FT_STACK_H
@@ -77,6 +77,9 @@ void			ft_verify_and_set_stacks(t_stack_node **a, t_stack_node **b,
 
 void			ft_stack_swap(t_stack_node *st, char stack_name, bool print);
 
+void			ft_stack_swap_both(t_stack_node *a, t_stack_node *b,
+					bool print);
+
 void			ft_stack_push(t_stack_node **from, t_stack_node **to,
 					char stack_name, bool print);
 
@@ -99,7 +102,27 @@ void			ft_sort_stack(t_stack_node **a, t_stack_node **b);
 
 /* split */
 
-char    **ft_split(char const *s, char c);
+char			**ft_split(char const *s, char c);
 
+/* functions for main */
+
+bool			is_number(char *c);
+
+long			ft_atol(char *s);
+
+bool			contains_duplicate(int *int_tab, int size_int_tab);
+
+bool			is_all_num(int size_args, char **args);
+
+int				*create_int_tab(int size_args, char **args);
+
+bool			get_args_and_sizeargs(int argc, char **argv, char ***args,
+					int *size_args);
+
+bool			parse_and_validate(char **args, int size_args, int **int_tab);
+
+void			clean_args_split(char **args, int argc);
+
+void			init_and_sort_stack(int *int_tab, int size_args);
 
 #endif
