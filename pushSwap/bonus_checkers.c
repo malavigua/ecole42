@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:13:16 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/22 18:16:32 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/22 19:27:44 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_stack.h"
@@ -52,14 +52,14 @@ bool	make_op_to_stack(t_stack_node **a, t_stack_node **b, char *line)
 	return (true);
 }
 
-bool read_and_apply_op(t_stack_node **a, t_stack_node **b)
+bool	read_and_apply_op(t_stack_node **a, t_stack_node **b)
 {
-	char *line;
-	
+	char	*line;
+
 	line = get_next_line(0);
 	while (line)
 	{
-		if(!make_op_to_stack(a, b,line))
+		if (!make_op_to_stack(a, b, line))
 		{
 			free(line);
 			return (false);
@@ -70,14 +70,15 @@ bool read_and_apply_op(t_stack_node **a, t_stack_node **b)
 	return (true);
 }
 
-void	clean_stacks_and_args(t_stack_node **a, t_stack_node **b, char **args, int argc)
+void	clean_stacks_and_args(t_stack_node **a, t_stack_node **b,
+		char **args, int argc)
 {
 	ft_stack_clear(a);
 	ft_stack_clear(b);
 	clean_args_split(args, argc);
 }
 
-void verify_stack_is_sorted(t_stack_node *a, t_stack_node *b)
+void	verify_stack_is_sorted(t_stack_node *a, t_stack_node *b)
 {
 	if (ft_stack_is_sorted_asc(a) && b == NULL)
 		write(1, "ok\n", 3);
@@ -96,20 +97,17 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		return (0);
 	if (!get_args_and_sizeargs(argc, argv, &args, &size_args))
-		return (write(1, "Error\n", 6), 1);
+		return (write(2, "Error\n", 6), 1);
 	if (!parse_and_validate(args, size_args, &int_tab))
-	{
-		clean_args_split(args, argc);
-		return (write(1, "Error\n", 6), 1);
-	}
+		return (clean_args_split(args, argc),write(2, "Error\n", 6), 1);
 	a = ft_stack_new(int_tab, size_args);
 	b = NULL;
 	if (!a)
-		return (write(1, "Error\n", 6), 1);
-	if(!read_and_apply_op(&a, &b))
+		return (write(2, "Error\n", 6), 1);
+	if (!read_and_apply_op(&a, &b))
 	{
 		clean_stacks_and_args(&a, &b, args, argc);
-		return (write(1, "Error\n", 6), 1);
+		return (write(2, "Error\n", 6), 1);
 	}
 	verify_stack_is_sorted(a, b);
 	clean_stacks_and_args(&a, &b, args, argc);
