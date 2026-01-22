@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:38:05 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/22 16:08:16 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/22 17:48:01 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,5 @@ int	main(int argc, char **argv)
 	}
 	init_and_sort_stack(int_tab, size_args);
 	clean_args_split(args, argc);
-	free(int_tab);
 	return (0);
 }

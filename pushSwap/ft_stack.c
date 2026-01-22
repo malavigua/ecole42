@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 09:34:49 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/22 16:04:22 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/22 17:47:16 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_stack.h"
@@ -130,11 +130,13 @@ t_stack_node	*ft_stack_new(int *tab, int size)
 		if (!n1)
 		{
 			ft_stack_clear(&res);
+			free(tab);
 			return (NULL);
 		}
 		ft_stack_add_back(&res, n1);
 		i++;
 	}
+	free(tab);
 	return (res);
 }
 

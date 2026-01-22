@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:13:16 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/22 15:56:14 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/22 18:06:57 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_stack.h"
@@ -52,12 +52,36 @@ bool	make_op_to_stack(t_stack_node **a, t_stack_node **b, char *line)
 	return (true);
 }
 
+bool read_and_apply_op(t_stack_node **a, t_stack_node **b)
+{
+	char *line;
+	
+	line = get_next_line(0);
+	while (line)
+	{
+		if(!make_op_to_stack(a, b,line))
+		{
+			free(line);
+			return (false);
+		}
+		free(line);
+		line = get_next_line(0);
+	}
+	return (true);
+}
+
+void	clean_stacks_and_args(t_stack_node **a, t_stack_node **b, char **args, int argc)
+{
+	ft_stack_clear(a);
+	ft_stack_clear(b);
+	clean_args_split(args, argc);
+}
+
 int	main(int argc, char **argv)
 {
 	char	**args;
 	int		size_args;
 	int		*int_tab;
-	char	*line;
 	t_stack_node	*a;
 	t_stack_node	*b;
 
@@ -74,26 +98,15 @@ int	main(int argc, char **argv)
 	b = NULL;
 	if (!a)
 		return (write(1, "Error\n", 6), 1);
-	line = get_next_line(0);
-	while (line)
+	if(!read_and_apply_op(&a, &b))
 	{
-		if (!make_op_to_stack(&a, &b,line))
-		{	
-			ft_stack_clear(&a);
-			ft_stack_clear(&b);
-			clean_args_split(args, argc);
-			free(int_tab);
-			return (write(1, "Error\n", 6), 1);
-		}
-		line = get_next_line(0);
+		clean_stacks_and_args(&a, &b, args, argc);
+		return (write(1, "Error\n", 6), 1);
 	}
 	if (ft_stack_is_sorted_asc(a) && b == NULL)
 		write(1, "ok\n", 3);
 	else
 		write(1, "ko\n", 3);
-	ft_stack_clear(&a);
-	ft_stack_clear(&b);
-	clean_args_split(args, argc);
-	free(int_tab);
+	clean_stacks_and_args(&a, &b, args, argc);
 	return (0);
 }
