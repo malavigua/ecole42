@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:13:16 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/22 18:06:57 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/22 18:16:32 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_stack.h"
@@ -77,6 +77,14 @@ void	clean_stacks_and_args(t_stack_node **a, t_stack_node **b, char **args, int 
 	clean_args_split(args, argc);
 }
 
+void verify_stack_is_sorted(t_stack_node *a, t_stack_node *b)
+{
+	if (ft_stack_is_sorted_asc(a) && b == NULL)
+		write(1, "ok\n", 3);
+	else
+		write(1, "ko\n", 3);
+}
+
 int	main(int argc, char **argv)
 {
 	char	**args;
@@ -103,10 +111,7 @@ int	main(int argc, char **argv)
 		clean_stacks_and_args(&a, &b, args, argc);
 		return (write(1, "Error\n", 6), 1);
 	}
-	if (ft_stack_is_sorted_asc(a) && b == NULL)
-		write(1, "ok\n", 3);
-	else
-		write(1, "ko\n", 3);
+	verify_stack_is_sorted(a, b);
 	clean_stacks_and_args(&a, &b, args, argc);
 	return (0);
 }
