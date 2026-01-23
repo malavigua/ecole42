@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:38:05 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/22 21:06:17 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/23 18:56:23 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		return (0);
 	if (!ft_get_args_and_sizeargs(argc, argv, &args, &size_args))
-		return (write(2, "Error\n", 6), 1);
+		return (free(args), write(2, "Error\n", 6), 1);
 	if (!ft_parse_and_validate(args, size_args, &int_tab))
 	{
 		ft_clean_args_split(args, argc);

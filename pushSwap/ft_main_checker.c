@@ -6,7 +6,7 @@
 /*   By: malmany <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 12:13:16 by malmany           #+#    #+#             */
-/*   Updated: 2026/01/22 21:05:37 by malmany          ###   ########.fr       */
+/*   Updated: 2026/01/23 18:58:46 by malmany          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_stack.h"
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		return (0);
 	if (!ft_get_args_and_sizeargs(argc, argv, &args, &size_args))
-		return (write(2, "Error\n", 6), 1);
+		return (free(args), write(2, "Error\n", 6), 1);
 	if (!ft_parse_and_validate(args, size_args, &int_tab))
 		return (ft_clean_args_split(args, argc), write(2, "Error\n", 6), 1);
 	a = ft_stack_new(int_tab, size_args);
