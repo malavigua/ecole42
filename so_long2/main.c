@@ -72,8 +72,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!init_window_and_sprites(&data))
 		return (1);
-	/*mlx_string_put(data.mlx, data.win, 15, 10, 16777215, "Collectibles : 1/1");
-	mlx_string_put(data.mlx, data.win, 30, 25, 16777215, "Moves : 1");*/
 	mlx_key_hook(data.win, handle_input, &data);
 	mlx_hook(data.win, 17, 1L << 17, close_win, &data);
 	mlx_loop(data.mlx);

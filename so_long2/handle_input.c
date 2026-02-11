@@ -26,17 +26,28 @@ static bool	can_move_to(t_mlx_data *d, int nx, int ny)
 	return (true);
 }
 
+
 static void	handle_collectible(t_mlx_data *d, int nx, int ny)
 {
+	//char *s;
 	if (d->map->data[ny][nx] == 'C')
 	{
 		d->player.nb_collectible_collected++;
 		d->map->data[ny][nx] = '0';
-		write(1, "Collectibles :", 14);
+		/*reset_first_line(d);
+		s = collected_col(d->player.nb_collectible_collected, d->map->nb_collectible);
+		if(s)
+		{
+			write(1, s, ft_strlen(s));
+			write(1, "\n", 1);
+			mlx_string_put(d->mlx, d->win, 15, 15, 16777215, s);
+			free(s);
+		}*/
+		/*write(1, "Collectibles :", 14);
 		ft_putnbr_fd(d->player.nb_collectible_collected, 1);
 		write(1, "/", 1);
 		ft_putnbr_fd(d->map->nb_collectible, 1);
-		write(1, "\n", 1);
+		write(1, "\n", 1);*/
 		//mlx_string_put(d->mlx, d->win, 15, 15, 16777215, "Collectibles : 1/2");
 	}
 }
@@ -50,9 +61,9 @@ static void	update_player_pos(t_mlx_data *d, int nx, int ny)
 	d->player.pos_y = ny;
 	display_tile(d, 'X', d->player.pos_x, d->player.pos_y);
 	d->player.nb_moves++;
-	write(1, "Moves :", 7);
+	/*write(1, "Moves :", 7);
 	ft_putnbr_fd(d->player.nb_moves, 1);
-	write(1, "\n", 1);
+	write(1, "\n", 1);*/
 	//mlx_string_put(data.mlx, data.win, 30, 25, 16777215, "Moves : 1");
 }
 
@@ -69,6 +80,7 @@ static void	move_player(t_mlx_data *d, int dx, int dy)
 	next = d->map->data[ny][nx];
 	handle_collectible(d, nx, ny);
 	update_player_pos(d, nx, ny);
+	print_info_first_line(d);
 	if (next == 'E'
 		&& d->player.nb_collectible_collected == d->map->nb_collectible)
 	{

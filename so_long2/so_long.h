@@ -111,4 +111,10 @@ int		close_win(t_mlx_data *data);
 
 //
 void	ft_putnbr_fd(int n, int fd);
+char    *ft_itoa(int n);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*collected_col(int nb_col_collected, int nb_tot_col);
+void	reset_first_line_wall(t_mlx_data *d);
+void	print_info_first_line(t_mlx_data *d);
 #endif
